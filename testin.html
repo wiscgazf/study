@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta name="keywords" content="<%= information.name %> — 荟捧场">
+    <meta name="description" content="<%= meta.description %>">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title><%= information.name %>-荟捧场</title>
+    <link rel="stylesheet" href="/cssm/bootstrap.min.css">
+    <link rel="stylesheet" href="/cssm/weui.css">
+    <link rel="stylesheet" href="/cssm/jquery-weui.css">
+    <link rel="stylesheet" href="/cssm/demos.css">
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?299603f38c03163a727f2aef9574388d";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var as = document.getElementsByTagName("script")[0];
+            as.parentNode.insertBefore(bp, as);
+        })();
+    </script>
+</head>
+<body ontouchstart>
+<!--列表-->
+<div class="info mt_50">
+    <p class="e-title"><%= information.name %></p>
+    <div class="mast">
+        <span>发布者/ <%= information.author %></span>
+        <% var d = new Date(information.updateTime) %>
+        <% var updateTime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); %>
+        <span class="ml_10"><%= updateTime %></span>
+        <span class="ml_10">浏览：<%= information.visitNum.pc %>次</span>
+    </div>
+    <div class="summry">荟捧场导读：<%- information.summary %></div>
+    <div class="info_main" id="info_main"><%- information.content %></div>
+    <div class="law">
+        声明：荟捧场尊重行业规范，转载的文章都会标注作者或来源，所转载文章并不代表荟捧场赞同其观点和对其真实性负责；如作品内容、版权有问题的请与本网联系，我们将在24小时内移除相关争议内容。荟捧场的原创文章，请转载时注明文章"来源：荟捧场"；
+    </div>
+    <div class="about_art mt_20">
+        <% if (nextInformation) { %>
+        <div><strong>上一篇：</strong><a href="<%= nextInformation._id %>"><%= nextInformation.name %></a></div>
+        <% } else { %>
+        <div><strong>上一篇：</strong><span>没有上一篇了</span></div>
+        <% } %>
+        <% if (preInformation) { %>
+        <div class="mt_10"><strong>下一篇：</strong><a href="<%= preInformation._id %>"><%= preInformation.name %></a></div>
+        <% } else { %>
+        <div class="mt_10"><strong>下一篇：</strong><span>没有下一篇了</span></div>
+        <% } %>
+    </div>
+    <!--2017-6-13 zf_回复-->
+    <div style="position:static;padding:0 10px 5px 10px;">
+        <div class="review">
+            <ul class="review_number">
+                <li><p>评论<span class="sum_total"></span></p></li>
+            </ul>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <textarea class="weui_textarea" id="review_content" placeholder="说点什么吧..." rows="3"
+                                  style="font-size: 0.9em;"></textarea>
+                    </div>
+                </div>
+                <div class="replay_success">评论成功</div>
+            </div>
+            <% if(user){ %>
+            <div class="publish">发表</div>
+            <% } else{ %>
+            <a href="/user/login" class="btn btn-danger"
+               style="float:right;padding:0.05rem 0.23rem;border-radius:6px;margin-top:0.1rem;font-size: 16px;">登录</a>
+            <% } %>
+            <div class="clearfix"></div>
+            <p class="hot_review">全部评论</p>
+            <div class="more_review"></div>
+        </div>
+        <div class="run_load"></div>
+        <p class="spread weui-infinite-scroll" id="load_more">加载更多评论 ﹀</p>
+    </div>
+    <div class="hot_art mt_20">
+        <div class="hot_art_tt">
+            <h3><span>热</span>点文章</h3>
+        </div>
+        <% if (hot && hot.information && hot.information.connections != 0 ){ %>
+        <%
+        for (var i = 0; i < hot.information.connections.length; i++) {
+        %>
+        <div class="hot_side">
+            <% var pic = hot.information.connections[i].item.pic + "&imageView2/2/w/300" %>
+            <span class="hot_side_num"><%= i + 1 %></span>
+            <a href="/information/<%= hot.information.connections[i].item._id %>">
+                <%= hot.information.connections[i].item.name %>
+            </a>
+        </div>
+        <%
+        }
+        %>
+        <% } %>
+    </div>
+    <div class="code mt_20">
+        <div class="qcode">
+            <img src="/imgm/url_code.jpg" width="98" height="98" alt="二维码">
+        </div>
+        <div class="qcode" style="margin-top:0.2rem;">
+            <p>中国商业信息化首席新媒体</p>
+            <p>请关注"荟捧场特别报道"！</p>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!--头部-->
+<% include ./header.ejs %>
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="/jsm/jquery-weui.js"></script>
+<script src="/jsm/common.js"></script>
+<script src="/jsm/jquery.downCount.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var oDiv = document.getElementById('info_main');
+        var img = oDiv.getElementsByTagName("img");
+        for (var i = 0; i < img.length; i++) {
+            img[i].style.maxWidth = '100%';
+            img[i].style.height = 'auto';
+        }
+    }
+    $(function () {
+        $('.countdown').downCount({
+            date: '05/14/2017 09:00:00',
+            offset: +10
+        }, function () {
+            // alert('倒计时结束!');
+        });
+//        2017-6-14 zf_发表
+        $(".publish").click(function () {
+            if (/^\s*$/.test($("#review_content").val())) {
+                $(".replay_success").fadeIn().delay(500).fadeOut().html("还未输入内容呐!").css("color", "#f00");
+            } else {
+                $.ajax({
+                    url: window.domain.official + '/comment/information/<%= information._id %>',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify({content: $("#review_content").val()}),
+                    headers: {
+                        'content-Type': 'application/json'
+                    },
+                    success: function (data) {
+                        var comment_date = new Date(data.createTimeMs);
+                        var review_con = "";
+                        var name;
+                        if (data.creator) {
+                            name = data.creator.name || data.creator.nickname;
+                        }
+                        if (!name || name.length == 0) {
+                            name = "未命名";
+                        }
+                        window.reviewSum++;
+                        review_con = "<div class='row'>" +
+                                "<div class='col-xs-2'>" + "<img src='/imgm/user_img.png' class='img-responsive center-block user_img' />" + "</div>" +
+                                "<div class='col-xs-10 review_msg'>" +
+                                "<p class='user_name'>" + name + "</p>" +
+                                "<p class='review_content'>" + $("#review_content").val() + "</p>" +
+                                "<em>" + window.reviewSum + "楼&nbsp;•&nbsp;" + comment_date.getFullYear() + "-" + (comment_date.getMonth() + 1) + "-" + comment_date.getDate() + "</em>"
+                                + "</div>"
+                                + "</div>";
+                        $(".more_review").prepend(review_con);
+                        $(".replay_success").fadeIn().delay(500).fadeOut().html("评论成功^-^").css("color", "#333");
+                        $("#review_content").val("");
+                        $(".sum_total").text("(" + window.reviewSum + ")");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    }
+                });
+            }
+        });
+//        2017-6-14 zf_更多评论
+        $("#load_more").click(function () {
+            getData(window.previousId);
+        });
+        getData(window.previousId);
+        function getData(previousId) {
+            var url = window.domain.official + '/comment/information/<%= information._id %>';
+            $(".spread").hide();
+            $(".run_load").show();
+            if (previousId) {
+                url = url + '?previousId=' + previousId;
+            }
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                method: 'GET',
+                headers: {
+                    'content-Type': "application/json",
+                    'requesttype': 'ajax'
+                },
+                success: function (result) {
+                    console.log(result);
+                    $(".spread").show();
+                    $(".run_load").hide();
+                    var review_dom = "";
+                    if (result.data.length > 0) {
+                        window.previousId = result.data[result.data.length - 1]._id;
+                    } else {
+                        $(".spread").text("已经没有更多了").css("color", "#a8abaf");
+                        $(".spread").unbind("click");
+                    }
+                    if (!previousId) {
+                        window.currentFloor = result.totalCount;
+                        window.reviewSum = result.totalCount;
+                    }
+                    $(".sum_total").text("(" + result.totalCount + ")");
+                    for (var i = 0; i < result.data.length; i++) {
+                        var name;
+                        var comment_times = new Date(result.data[i].createTimeMs);
+                        if (!result.data[i].creator || !result.data[i].creator.name || result.data[i].creator.name.length == 0) {
+                            `                       name="未命名";`
+                        } else {
+                            name = result.data[i].creator.name;
+                        }
+                        review_dom = "<div class='row'>" +
+                                "<div class='col-xs-2'>" + "<img src='/imgm/user_img.png' class='img-responsive center-block user_img' />" + "</div>" +
+                                "<div class='col-xs-10 review_msg'>" +
+                                "<p class='user_name'>" + name + "</p>" +
+                                "<p class='review_content'>" + result.data[i].content + "</p>" +
+                                "<em>" + window.currentFloor + "楼&nbsp;•&nbsp;" + comment_times.getFullYear() + "-" + (comment_times.getMonth() + 1) + "-" + comment_times.getDate() + "</em>"
+                                + "</div>"
+                                + "</div>";
+                        $(".more_review").append(review_dom);
+                        window.currentFloor--;
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<textarea name="" style="border: 1px solid red;width:200px;height: 200px;" disabled="disabled"></textarea>
+	<button onclick="test()">test</button>
+</body>
+<script type="text/javascript" charset="utf-8">
+	function test(){
+		var oTxt=document.getElementsByTagName("textarea")[0];
+		var oDiv=document.createElement("div");
+		var oP=document.createElement("p");
+
+		oDiv.addClass="demo";
+		oP.innerHTML=oTxt.value;
+		oDiv.appendChild(oP);
+		document.body.appendChild(oDiv);
+	}
+</script>
+</html>
